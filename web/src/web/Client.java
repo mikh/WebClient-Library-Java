@@ -69,4 +69,14 @@ public class Client {
 		}
 		el.submit();
 	}
+	
+	public void click(String element, boolean name){
+		WebElement el = null;
+		if(name){
+			el = driver.findElement(By.name(element));
+		} else{
+			el = driver.findElement(By.id(element));
+		}
+		el.click();
+	}
 }
