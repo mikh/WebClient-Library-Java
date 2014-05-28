@@ -79,4 +79,10 @@ public class Client {
 		}
 		el.click();
 	}
+	
+	public void clickLink(String findFormat, String field){
+		if(findFormat.equals("cssSelector")){
+			driver.findElement(By.cssSelector(field)).click();
+		}
+	}
 }
