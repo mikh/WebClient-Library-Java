@@ -88,6 +88,6 @@ public class Client {
 	}
 	
 	public void acceptAlert(){
-		driver.switchTo().alert().accept();
+		
 	}
 }
