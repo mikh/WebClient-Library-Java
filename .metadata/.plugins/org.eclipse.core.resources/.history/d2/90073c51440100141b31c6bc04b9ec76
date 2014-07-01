@@ -82,7 +82,6 @@ public class Client {
 	
 	public void clickLink(String findFormat, String field){
 		if(findFormat.equals("cssSelector")){
-			field = "a[href*=\'" + field + "\']";
 			driver.findElement(By.cssSelector(field)).click();
 		}
 	}
