@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -16,10 +17,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class Client {
 	WebDriver driver;
 	
-	public Client(String baseurl){
-		ProfilesIni profile = new ProfilesIni();
-		FirefoxProfile ffprofile = profile.getProfile("SELENIUM");
-		driver = new FirefoxDriver(ffprofile);
+	public Client(String baseurl, String profile){
+		if(profile != null){
+			ProfilesIni fprofile = new ProfilesIni();
+			FirefoxProfile ffprofile = fprofile.getProfile(profile);
+			driver = new FirefoxDriver(ffprofile);
+		} else
+			driver = new FirefoxDriver();
 		driver.get(baseurl);
 	}
 	
@@ -94,10 +98,15 @@ public class Client {
 	}
 	
 	public boolean checkForAlert(int time_wait){
-		WebDriverWait wait = new WebDriverWait(driver, time_wait);
-		if(wait.until(ExpectedConditions.alertIsPresent()) == null)
+		try{
+			WebDriverWait wait = new WebDriverWait(driver, time_wait);
+			if(wait.until(ExpectedConditions.alertIsPresent()) == null)
+				return false;
+			else
+				return true;
+		} catch(TimeoutException e){
+			//alert wait timeout
 			return false;
-		else
-			return true;
+		}
 	}
 }
