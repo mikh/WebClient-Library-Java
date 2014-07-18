@@ -10,6 +10,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Client {
 	WebDriver driver;
@@ -89,5 +91,13 @@ public class Client {
 	
 	public void acceptAlert(){
 		driver.switchTo().alert().accept();
+	}
+	
+	public boolean checkForAlert(int time_wait){
+		WebDriverWait wait = new WebDriverWait(driver, time_wait);
+		if(wait.until(ExpectedConditions.alertIsPresent()) == null)
+			return false;
+		else
+			return true;
 	}
 }
