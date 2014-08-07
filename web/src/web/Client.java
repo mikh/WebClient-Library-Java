@@ -1,6 +1,7 @@
 package web;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -8,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
@@ -17,13 +19,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class Client {
 	WebDriver driver;
 	
-	public Client(String baseurl, String profile){
+	public Client(String baseurl, String profile, String firefox_executable){
 		if(profile != null){
 			ProfilesIni fprofile = new ProfilesIni();
 			FirefoxProfile ffprofile = fprofile.getProfile(profile);
 			driver = new FirefoxDriver(ffprofile);
-		} else
-			driver = new FirefoxDriver();
+		} else{
+			FirefoxProfile ffprofile = new FirefoxProfile();
+			FirefoxBinary ffbinary = new FirefoxBinary(new File(firefox_executable));
+			ffprofile.setPreference("webdriver.firefox.bin", firefox_executable);
+			driver = new FirefoxDriver(ffbinary, ffprofile);
+		}
 		driver.get(baseurl);
 	}
 	
